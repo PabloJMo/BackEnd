@@ -1,4 +1,5 @@
 const express = require('express');
+const  libraryRouter = require('./routes')
 const PORT = 8090
 
 const app = express();
@@ -12,6 +13,8 @@ app.get("/", (req, res) => {
 app.get('/hello', (req, res) => {
   res.send(`Hello, ${req.query.person}!`);
 });
+
+app.use("/library", libraryRouter);
 
 app.listen(PORT, ()=> {
     console.log(`Servidor escuchando en el puerto ${PORT}`);
