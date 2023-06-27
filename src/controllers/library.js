@@ -26,7 +26,7 @@ const getLibrary = async (req, res) => {
 const getLibraries = async (req, res) => {
     try {
         const libraries = await libraryService.getLibraries();
-        if (!libraries) { // TODO verificar condicional del if
+        if (!libraries.length > 0) { // TODO verificar condicional del if
             res.status(404).json({ action: "getLibraries", error: "Libraries Not Found." })
         } else {
             res.json(libraries);
@@ -41,7 +41,7 @@ const createBook = async (req, res) => {
     try {
         const book = await libraryService.createBook(req.params.libraryId, req.body);
         if (!book) {
-            res.status(404).json({ action: "createBook", error: "Book Not Found." })
+            res.status(404).json({ action: "createBook", error: "Library Not Found." })
         } else {
             res.json(book);
         }
@@ -53,13 +53,12 @@ const createBook = async (req, res) => {
 
 const updateLibrary = async (req, res) => {
     try {
-        const library = await libraryService.updateLibrary(req.params.libraryId, req.body);
-        if (!library) {
+        const result = await libraryService.updateLibrary(req.params.libraryId, req.body);
+        if (!result) {
             res.status(404).json({ action: "updateLibrary", error: "Library Not Found." })
         } else {
-            res.json(library);
-        }
-        
+            res.json({mensaje: "Registro actualizado con éxito"});
+        }       
     } catch (err) {
         res.status(500).json({ action: "updateLibrary", error: err.message });
     }
@@ -67,13 +66,12 @@ const updateLibrary = async (req, res) => {
 
 const deleteLibrary = async (req, res) => {
     try {
-        const library = await libraryService.deleteLibrary(req.params.libraryId);
-        if (!library) {
+        const result = await libraryService.deleteLibrary(req.params.libraryId);
+        if (!result) {
             res.status(404).json({ action: "deleteLibrary", error: "Library Not Found." })
         } else {
-            res.json(library);
-        }
-        
+            res.status(200);
+        }      
     } catch (err) {
         res.status(500).json({ action: "deleteLibrary", error: err.message });
     }

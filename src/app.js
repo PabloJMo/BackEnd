@@ -1,9 +1,12 @@
 const express = require('express');
-const  libraryRouter = require('./routes')
-const PORT = 8090
 
+const libraryRouter = require('./routes');
+const { initializeDB } = require('./config/dbConfig');
+
+const PORT = 8090;
 const app = express();
 
+// Application Middlewares
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -16,6 +19,7 @@ app.get('/hello', (req, res) => {
 
 app.use("/library", libraryRouter);
 
-app.listen(PORT, ()=> {
-    console.log(`Servidor escuchando en el puerto ${PORT}`);
+app.listen(PORT, async () => {
+  await initializeDB();
+  console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
