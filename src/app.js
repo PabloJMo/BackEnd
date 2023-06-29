@@ -1,6 +1,6 @@
 const express = require('express');
 
-const libraryRouter = require('./routes');
+const { libraryRouter, bookRouter } = require('./routes');
 const { initializeDB } = require('./config/dbConfig');
 
 const PORT = 8090;
@@ -18,6 +18,7 @@ app.get('/hello', (req, res) => {
 });
 
 app.use("/library", libraryRouter);
+app.use("/book", bookRouter);
 
 app.listen(PORT, async () => {
   await initializeDB();

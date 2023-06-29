@@ -70,7 +70,7 @@ const deleteLibrary = async (req, res) => {
         if (!result) {
             res.status(404).json({ action: "deleteLibrary", error: "Library Not Found." })
         } else {
-            res.status(200);
+            res.json({mensaje: "Registro eliminado con éxito"});
         }      
     } catch (err) {
         res.status(500).json({ action: "deleteLibrary", error: err.message });

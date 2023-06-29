@@ -1,9 +1,9 @@
 const { Library, Book } = require('../models');
+///const {Op} = require('sequelize');
 
 const createLibrary = async (library) => {
     try {
         const newLibrary = await Library.create(library);
-        //const newLibrary = {id: 123, ...library};
         return newLibrary;
     } catch (err) {
         console.error("Error when creating Library", err);
@@ -13,8 +13,20 @@ const createLibrary = async (library) => {
 
 const createBook = async (libraryId, book) => {
     try {
-        const newBook = await Book.create({ ...book, LibraryId: libraryId});
-        //const newBook = {id : 12, ...book, library: libraryId};
+        //const newBook = await Book.create({ ...book, library: libraryId});
+        let [newBook, created] = await Book.findOrCreate({
+            where: {
+                isbn: book.isbn,
+                library: null
+            },
+            defaults: {
+                ...book, library: libraryId
+            }
+        });
+
+        if (!created) {
+            await newBook.update({library: libraryId});
+        }
         return newBook;
     } catch (err) {
         console.error("Error when creating Book", err);
@@ -25,7 +37,6 @@ const createBook = async (libraryId, book) => {
 const getLibrary = async (libraryId) => {
     try {
         const library = await Library.findByPk(libraryId, {include: {all: true}});
-        //const library = {id: libraryId, name: "El Quijote"};
         return library;
     } catch (err) {
         console.error("Error when fetching Library", err);
@@ -45,8 +56,7 @@ const getLibraries = async () => {
 
 const updateLibrary = async (libraryId, fields) => {
     try {
-        // TODO verificar
-        const [updatedRow] = await Library.update({...fields},{where : {id: libraryId} });
+        const [updatedRow] = await Library.update({...fields},{where : {id: libraryId}});
         return updatedRow;
     } catch (err) {
         console.error("Error when updating Library", err);
@@ -57,9 +67,8 @@ const updateLibrary = async (libraryId, fields) => {
 const deleteLibrary = async (libraryId) => {
     try {
         //TODO Revisar
-        //const library = await Library.findByPk(libraryId);
-        const library = {libraryId}
-        return library;
+        const deletedRow = await Library.destroy({where: {id: libraryId}});
+        return deletedRow;
     } catch (err) {
         console.error("Error when deleting Library", err);
         throw err;

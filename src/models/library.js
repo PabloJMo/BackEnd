@@ -20,9 +20,14 @@ const Library = sequelize.define('Library', {
         type: DataTypes.STRING,
         allowNull: false,        
     }
+},{
+    paranoid: true,
 });
 
-Library.hasMany(Book);
-//Ticket.belongsTo(User);
+Library.hasMany(Book, {foreignKey: 'library'});
+Book.belongsTo(Library, {
+    foreignKey: 'library',
+    //constraints: false
+});
 
 module.exports = Library;

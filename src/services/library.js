@@ -32,21 +32,21 @@ const createBook = async (libraryId, book) => {
 };
 
 const updateLibrary = async (libraryId, library) => {
-    const updatedLibrary = await libraryProvider.updateLibrary(libraryId, library);
-    if (updatedLibrary) {
+    const result = await libraryProvider.updateLibrary(libraryId, library);
+    if (result) {
         // Lógica de negocio
-        console.log(updatedLibrary.name);
+        console.log(result);
     }
-    return updatedLibrary;
+    return result;
 };
 
 const deleteLibrary = async (libraryId) => {
-    const library = await libraryProvider.deleteLibrary(libraryId);
-    if (library) {
+    const result = await libraryProvider.deleteLibrary(libraryId);
+    if (result) {
         // Lógica de negocio
-        console.log(library.name);
+        console.log(result);
     }
-    return library;
+    return result;
 };
 
 module.exports = {
