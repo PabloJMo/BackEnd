@@ -14,7 +14,7 @@ const createLibrary = async (library) => {
 const createBook = async (libraryId, book) => {
     try {
         //const newBook = await Book.create({ ...book, library: libraryId});
-        let [newBook, created] = await Book.findOrCreate({
+        const [newBook, created] = await Book.findOrCreate({
             where: {
                 isbn: book.isbn,
                 library: null
@@ -68,6 +68,12 @@ const deleteLibrary = async (libraryId) => {
     try {
         //TODO Revisar
         const deletedRow = await Library.destroy({where: {id: libraryId}});
+        if (deletedRow > 0) {
+            orphanedBooks = await Book.findAll({where: { library:libraryId }});
+            orphanedBooks.map(async book => {
+                await book.update({ library: null });
+            });
+        }
         return deletedRow;
     } catch (err) {
         console.error("Error when deleting Library", err);

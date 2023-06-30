@@ -1,9 +1,10 @@
 const express = require('express');
 
-const { libraryRouter, bookRouter } = require('./routes');
+const { libraryRouter, bookRouter, userRouter } = require('./routes');
 const { initializeDB } = require('./config/dbConfig');
 
 const PORT = 8090;
+//Creating an app from express
 const app = express();
 
 // Application Middlewares
@@ -19,6 +20,7 @@ app.get('/hello', (req, res) => {
 
 app.use("/library", libraryRouter);
 app.use("/book", bookRouter);
+app.use("/user", userRouter);
 
 app.listen(PORT, async () => {
   await initializeDB();
