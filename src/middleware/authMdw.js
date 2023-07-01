@@ -18,7 +18,7 @@ passport.use(
   )
 );
 
-const jwtValidMDW = passport.authenticate("jwt", { session: false });
+const AUTH = passport.authenticate("jwt", { session: false });
 
 const userIsAdminMDW = (req, res, next) => {
   return passport.authenticate("jwt", { session: false }, (err, user, info) => {
@@ -32,8 +32,8 @@ const userIsAdminMDW = (req, res, next) => {
       return next();
     }
 
-    res.status(401).json({ error: "User not Admin" });
+    res.status(401).json({ error: "User isn't Admin" });
   })(req, res, next);
 };
 
-module.exports = { jwtValidMDW, userIsAdminMDW, SERVER_SECRET };
+module.exports = { AUTH, userIsAdminMDW, SERVER_SECRET };

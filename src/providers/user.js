@@ -10,6 +10,16 @@ const createUser = async (user) => {
   }
 };
 
+const getUser = async (userId) => {
+  try {
+    const user = await User.findByPk(userId);
+    return user;
+  } catch (err) {
+    console.error("Error when fetching User", err);
+    throw err;
+  }
+};
+
 const validateUser = async (options) => {
   try {
     const user = await User.findAll({
@@ -28,4 +38,4 @@ const validateUser = async (options) => {
   }
 };
 
-module.exports = { createUser, validateUser };
+module.exports = { createUser, validateUser, getUser };

@@ -10,7 +10,7 @@ const initializeDB = async () => {
         await sequelize.authenticate();
         console.log('Conexión a la base de datos establecida.');
         await sequelize.sync({
-            force: true,
+            force: false,
             //alter: false,
         });
     } catch (error) {

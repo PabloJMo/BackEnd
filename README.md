@@ -74,3 +74,11 @@ Debe existir un usuario con name: admin y password: admin
 - Describir el proceso de desarrollo. (Cómo fueron fueron creados los archivos y por qué)
 - Bonus:
    - Que haya validación de las entidades al momento de crearse/actualizarse
+
+
+"express": "^4.18.2",
+"jsonwebtoken": "^9.0.0",
+"passport": "^0.6.0",
+"passport-jwt": "^4.0.1",
+"sequelize": "^6.32.1",
+"sqlite3": "^5.1.6"
